@@ -70,6 +70,20 @@ async function run() {
       const review = await cursor.toArray();
       res.send(review);
     });
+
+    app.get("/users", async (req, res) => {
+      const query = {};
+      const cursor = await usersCollection.find(query);
+      const users = cursor.toArray();
+      res.send(users);
+    });
+
+    app.put("/users", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const users = await usersCollection.insertOne(user);
+      res.send(users);
+    });
   } finally {
   }
 }
