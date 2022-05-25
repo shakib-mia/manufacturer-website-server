@@ -43,6 +43,9 @@ async function run() {
     const reviewsCollection = client
       .db("partsManufacturer")
       .collection("reviews");
+    const ordersCollection = client
+      .db("partsManufacturer")
+      .collection("orders");
 
     app.get("/projects", async (req, res) => {
       const query = {};
@@ -76,6 +79,19 @@ async function run() {
       const cursor = await usersCollection.find({ email: email });
       const user = await cursor.toArray();
       res.send(user);
+    });
+
+    app.put("/orders", async (req, res) => {
+      const order = req.body;
+      const orders = await ordersCollection.insertOne(order);
+      res.send(orders);
+    });
+
+    app.get("/orders", async (req, res) => {
+      const query = {};
+      const cursor = await ordersCollection.find(query);
+      const orders = await cursor.toArray();
+      res.send(orders);
     });
 
     app.get("/reviews", async (req, res) => {
