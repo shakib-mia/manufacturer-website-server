@@ -57,11 +57,27 @@ async function run() {
       res.send(products);
     });
 
+    app.get("/products/:_id", async (req, res) => {
+      // console.log(req.params._id)
+      const query = req.params._id;
+      const cursor = await productsCollection.find({ query });
+      const product = await cursor.toArray();
+      // console.log(product);
+      res.send(product);
+    });
+
     app.get("/users", async (req, res) => {
       const query = {};
       const cursor = await usersCollection.find(query);
       const users = await cursor.toArray();
       res.send(users);
+    });
+
+    app.get("/users/:email", async (req, res) => {
+      const email = req.params.email;
+      const cursor = await usersCollection.find({ email: email });
+      const user = await cursor.toArray();
+      res.send(user);
     });
 
     app.get("/reviews", async (req, res) => {
@@ -80,7 +96,6 @@ async function run() {
 
     app.put("/users", async (req, res) => {
       const user = req.body;
-      console.log(user);
       const users = await usersCollection.insertOne(user);
       res.send(users);
     });
