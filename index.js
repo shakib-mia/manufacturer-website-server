@@ -94,6 +94,13 @@ async function run() {
       res.send(orders);
     });
 
+    app.get("/orders/:email", async (req, res) => {
+      const query = req.params.email;
+      const cursor = await ordersCollection.find({ email: query });
+      const orders = await cursor.toArray();
+      res.send(orders);
+    });
+
     app.get("/reviews", async (req, res) => {
       const query = {};
       const cursor = await reviewsCollection.find(query);
