@@ -57,15 +57,6 @@ async function run() {
       res.send(products);
     });
 
-    app.get("/products/:_id", async (req, res) => {
-      // console.log(req.params._id)
-      const query = req.params._id;
-      const cursor = await productsCollection.find({ query });
-      const product = await cursor.toArray();
-      // console.log(product);
-      res.send(product);
-    });
-
     app.get("/users", async (req, res) => {
       const query = {};
       const cursor = await usersCollection.find(query);
