@@ -3,6 +3,7 @@ const express = require("express");
 require("dotenv").config();
 // const jwt = require("jsonwebtoken");
 const cors = require("cors");
+const { ObjectID } = require("bson");
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -85,6 +86,14 @@ async function run() {
       const cursor = await ordersCollection.find({ email: query });
       const orders = await cursor.toArray();
       res.send(orders);
+    });
+
+    app.delete("/orders/:_id", async (req, res) => {
+      const query = req.params._id;
+      const filter = { _id: ObjectID(query) };
+      const result = await ordersCollection.deleteOne(filter);
+
+      res.send(result);
     });
 
     app.get("/reviews", async (req, res) => {
