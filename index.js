@@ -54,10 +54,17 @@ async function run() {
       const projects = await cursor.toArray();
       res.send(projects);
     });
+
     app.get("/products", async (req, res) => {
       const query = {};
       const cursor = await productsCollection.find(query);
       const products = await cursor.toArray();
+      res.send(products);
+    });
+
+    app.put("/products", async (req, res) => {
+      const product = req.body;
+      const products = await productsCollection.insertOne(product);
       res.send(products);
     });
 
@@ -68,13 +75,13 @@ async function run() {
       res.send(product);
     });
 
-    app.put("/orders", async (req, res) => {
+    app.put("/products", async (req, res) => {
       const order = req.body;
       const orders = await ordersCollection.insertOne(order);
       res.send(orders);
     });
 
-    app.get("/orders", async (req, res) => {
+    app.get("/products", async (req, res) => {
       const query = {};
       const cursor = await ordersCollection.find(query);
       const orders = await cursor.toArray();
@@ -112,6 +119,7 @@ async function run() {
 
     app.put("/users", async (req, res) => {
       const email = req.body;
+      email.role = "user";
       const cursor = await usersCollection.insertOne(email);
       res.send(cursor);
     });
