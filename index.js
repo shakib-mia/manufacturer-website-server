@@ -130,10 +130,21 @@ async function run() {
       res.send(users);
     });
 
+    app.put("/users/:email", async (req, res) => {
+      const email = { email: req.params.email };
+      const updateData = { $set: req.body };
+      const options = { upsert: true };
+      const cursor = await usersCollection.updateOne(
+        email,
+        updateData,
+        options
+      );
+      res.send(cursor);
+    });
+
     app.get("/users/:email", async (req, res) => {
       const query = req.params.email;
       const cursor = await usersCollection.findOne({ email: query });
-
       res.send(cursor);
     });
   } finally {
