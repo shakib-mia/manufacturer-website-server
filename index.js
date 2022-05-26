@@ -67,20 +67,6 @@ async function run() {
       res.send(product);
     });
 
-    app.get("/users", async (req, res) => {
-      const query = {};
-      const cursor = await usersCollection.find(query);
-      const users = await cursor.toArray();
-      res.send(users);
-    });
-
-    app.get("/users/:email", async (req, res) => {
-      const email = req.params.email;
-      const cursor = await usersCollection.find({ email: email });
-      const user = await cursor.toArray();
-      res.send(user);
-    });
-
     app.put("/orders", async (req, res) => {
       const order = req.body;
       const orders = await ordersCollection.insertOne(order);
@@ -111,13 +97,19 @@ async function run() {
     app.get("/users", async (req, res) => {
       const query = {};
       const cursor = await usersCollection.find(query);
-      const users = cursor.toArray();
+      const users = await cursor.toArray();
       res.send(users);
     });
 
     app.put("/users", async (req, res) => {
-      const user = req.body;
-      const users = await usersCollection.insertOne(user);
+      const email = req.body;
+      const cursor = await usersCollection.insertOne(email);
+      res.send(cursor);
+    });
+    app.get("/users", async (req, res) => {
+      const query = {};
+      const cursor = await usersCollection.find(query);
+      const users = await cursor.toArray();
       res.send(users);
     });
   } finally {
