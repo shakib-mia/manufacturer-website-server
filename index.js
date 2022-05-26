@@ -112,6 +112,13 @@ async function run() {
       const users = await cursor.toArray();
       res.send(users);
     });
+
+    app.get("/users/:email", async (req, res) => {
+      const query = req.params.email;
+      const cursor = await usersCollection.findOne({ email: query });
+
+      res.send(cursor);
+    });
   } finally {
   }
 }
