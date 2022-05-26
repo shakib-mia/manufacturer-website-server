@@ -96,14 +96,14 @@ async function run() {
     });
 
     app.put("/orders", async (req, res) => {
-      const order = { email: req.body.email };
+      const order = { order: req.body };
       const cursor = await ordersCollection.insertOne(order);
       // const orders = await cursor.toArray();
       res.send(cursor);
     });
 
     app.put("/orders/:email", async (req, res) => {
-      const order = { email: req.body.email };
+      const order = { order: req.body };
       const cursor = await ordersCollection.insertOne(order);
       // const orders = await cursor.toArray();
       res.send(cursor);
